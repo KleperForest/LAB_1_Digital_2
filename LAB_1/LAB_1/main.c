@@ -29,6 +29,7 @@ const uint8_t fila_2[] = {0x00, 0x40, 0x20, 0x10, 0x80};        // Valores para 
 volatile uint8_t Bandera_1 = 0;// Bandera para Diplay
 volatile uint8_t Bandera_2 = 0;// Bandera para jugadores
 volatile uint8_t Bandera_3 = 0;// Bandera para jugadores
+
 volatile uint8_t P2_RED = 0;// Jugador 2
 volatile uint8_t P1_BLUE = 0;// Jugador 1
 
