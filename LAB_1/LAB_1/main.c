@@ -19,16 +19,18 @@ int main(void) {
 	while (1) {
 		// Aquí puede ir el código adicional que quieras ejecutar continuamente
 		
-		// Establecer PC5 en alto (HIGH) y PC4, PC3 en bajo (LOW)
+		//Establecer PC5 en alto (HIGH) y PC4, PC3 en bajo (LOW)
 		PORTC |= (1 << PC5);  // Establece PC5 en alto
 		PORTC &= ~((1 << PC3) | (1 << PC4));  // Establece PC3 y PC4 en bajo
-		
+		_delay_ms(5);
 		
 		PORTC |= (1 << PC3);  // Establece PC5 en alto
 		PORTC &= ~((1 << PC5) | (1 << PC4));  // Establece PC3 y PC4 en bajo
+		_delay_ms(5);
 		
 		PORTC |= (1 << PC4);  // Establece PC5 en alto
 		PORTC &= ~((1 << PC3) | (1 << PC5));  // Establece PC3 y PC4 en bajo
+		_delay_ms(5);
 	}
 	
 	return 0;
