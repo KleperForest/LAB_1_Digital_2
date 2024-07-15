@@ -4,13 +4,14 @@
 #include <util/delay.h>
 #include <avr/interrupt.h>
 
-volatile uint8_t counter = 5; // Valor de cuenta regresiva
+volatile uint8_t counter = 6; // Valor de cuenta regresiva
 
 const uint8_t fila_1[] = {0x3F, 0x0C, 0x5B, 0x5D, 0x6C, 0x75};  // Valores para los pines de PORTD Display
 const uint8_t fila_2[] = {0x00, 0x40, 0x20, 0x10, 0x80};        // Valores para los pines de PORTD Jugadores
 
 volatile uint8_t Bandera_1 = 0;// Bandera para Diplay
 volatile uint8_t Bandera_2 = 0;// Bandera para jugadores
+volatile uint8_t Bandera_3 = 0;// Bandera para jugadores
 volatile uint8_t P2_RED = 0;// Jugador 2
 volatile uint8_t P1_BLUE = 0;// Jugador 1
 
@@ -38,21 +39,11 @@ void incrementar_contador_2() {
 }
 
 void Winner(){
-	if (Win_ner == 1){
-		// Mostrar valores en Display de Timer (cuenta regresiva)
-		PORTC |= (1 << PC5);   // BJT_Display en alto
-		PORTC &= ~((1 << PC3) | (1 << PC4));  // BJT_BLUE y BJT_RED en bajo
-		
-		PORTD = fila_1[1];  // Mostrar valores en Display de Timer
-	}
-	else if (Win_ner == 2){
-		// Mostrar valores en Display de Timer (cuenta regresiva)
-		PORTC |= (1 << PC5);   // BJT_Display en alto
-		PORTC &= ~((1 << PC3) | (1 << PC4));  // BJT_BLUE y BJT_RED en bajo
-		
-		PORTD = fila_1[2];  // Mostrar valores en Display de Timer	
-	}
-			
+	if (Win_ner == 1 || Win_ner == 2){
+		Bandera_1 = 0;
+		Bandera_2 = 0;
+		Bandera_3 = 1;
+	}			
 }
 	
 ISR(PCINT0_vect) {
@@ -77,6 +68,8 @@ ISR(PCINT0_vect) {
 		// Activar Timer.
 		Bandera_1 = 1;// Activar decremento de display
 		Bandera_2 = 0;// Desactivar incremento de jugadores
+		Bandera_3 = 0;// Desactivar ganador.
+		Win_ner = 0;
 		counter = 6; // Reiniciar contador
 		P1_BLUE = 0; // Reiniciar valor de jugador 1
 		P2_RED = 0; // Reiniciar valor de jugador 2
@@ -111,14 +104,12 @@ int main(void) {
 	while (1) {
 		// Control de Timer
 		while (Bandera_1) {
-			//Controlar cremento de jugadores
-			P1_BLUE = 0;
-			P2_RED = 0;
 			
 			// Mostrar valores en Display de Timer (cuenta regresiva)
 			PORTC |= (1 << PC5);   // BJT_Display en alto
 			PORTC &= ~((1 << PC3) | (1 << PC4));  // BJT_BLUE y BJT_RED en bajo
 			
+			counter--;  // Decrementar contador
 			PORTD = fila_1[counter];  // Mostrar valores en Display de Timer
 			
 			Bandera_1 = (counter == 0) ? 0 : 1;  // Desactivar Bandera_1 cuando counter llega a 0
@@ -126,7 +117,9 @@ int main(void) {
 			
 			_delay_ms(999);  // Esperar 1 segundo (timer)
 			
-			counter--;  // Decrementar contador
+			//Controlar cremento de jugadores
+			P1_BLUE = 0;
+			P2_RED = 0;
 			_delay_ms(1);
 		}
 
@@ -148,6 +141,32 @@ int main(void) {
 
 		}
 		
+		while(Bandera_3){
+			if (Win_ner == 1){
+				// Mostrar valores en Display de Timer (cuenta regresiva)
+				PORTC |= (1 << PC5);   // BJT_Display en alto
+				PORTC &= ~((1 << PC3) | (1 << PC4));  // BJT_BLUE y BJT_RED en bajo
+				PORTD = fila_1[1];  // Mostrar valores en Display de Timer
+				_delay_ms(6);
+				// LED azules
+				PORTC |= (1 << PC3);   // BJT_Blue en alto
+				PORTC &= ~((1 << PC5) | (1 << PC4));  // BJT_Display y BJT_RED en bajo
+				PORTD = 0xF0;  // Mostrar valores en Display de Timer
+				_delay_ms(6);
+			}
+			else if (Win_ner == 2){
+				// Mostrar valores en Display de Timer (cuenta regresiva)
+				PORTC |= (1 << PC5);   // BJT_Display en alto
+				PORTC &= ~((1 << PC3) | (1 << PC4));  // BJT_BLUE y BJT_RED en bajo
+				PORTD = fila_1[2];  // Mostrar valores en Display de Timer
+				_delay_ms(6);
+				// LED rojos
+				PORTC |= (1 << PC4);   // BJT_Blue en alto
+				PORTC &= ~((1 << PC5) | (1 << PC3));  // BJT_Display y BJT_RED en bajo
+				PORTD = 0xF0;  // Mostrar valores en Display de Timer
+				_delay_ms(6);
+			}
+		}
 		
 	}
 
