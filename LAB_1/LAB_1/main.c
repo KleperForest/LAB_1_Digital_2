@@ -1,82 +1,104 @@
 #define F_CPU 16000000UL
 
-#include <stdio.h>
 #include <avr/io.h>
 #include <util/delay.h>
 #include <avr/interrupt.h>
 
-volatile uint8_t counter = 5;// Valor de cuenta regresiba
+volatile uint8_t counter = 5; // Valor de cuenta regresiva
 
-const uint8_t fila[] = {0x3F, 0x0C, 0x5B, 0x5D, 0x6C, 0x75};  // Valores para los pines de PORTD
+const uint8_t fila_1[] = {0x3F, 0x0C, 0x5B, 0x5D, 0x6C, 0x75};  // Valores para los pines de PORTD Display
+const uint8_t fila_2[] = {0x00, 0x40, 0x20, 0x10, 0x80};        // Valores para los pines de PORTD Display
 
-
-void timer1_init() {
-	// Configurar el Timer1 en modo CTC
-	TCCR1B |= (1 << WGM12);  // Configurar el modo CTC (Clear Timer on Compare Match)
-	TIMSK1 |= (1 << OCIE1A);  // Habilitar la interrupción por comparación del OCR1A
-	OCR1A = 15624;  // Valor de comparación para generar una interrupción cada segundo (con prescaler 1024)
-	TCCR1B |= (1 << CS12) | (1 << CS10);  // Configurar el prescaler en 1024
-}
-
-ISR(TIMER1_COMPA_vect) {
-	if (counter > 0) {
-		counter--;  // Decrementar el contador
-	}
-}
+volatile uint8_t Bandera_1 = 0;// Bandera para Diplay
+volatile uint8_t Bandera_2 = 0;// Bnadera para jugadores
+volatile uint8_t P2_RED = 0;// Jugador 2
+volatile uint8_t P1_BLUE = 0;// Jugador 1
 
 ISR(PCINT0_vect) {
 	// Comprobar si el botón en PB0 está presionado (PB0 es bajo)
 	if (!(PINB & (1 << PB0))) {
-		PORTD = 0xFF;  
-	}
-	// Comprobar si el botón en PB1 está presionado (PB1 es bajo)
-	if (!(PINB & (1 << PB1))) {
-		PORTD = 0x0C; 
-	}
-		
-	// Comprobar si el botón en PB2 está presionado (PB1 es bajo)
-	if (!(PINB & (1 << PB2))) {
-		// Activar Timer.
-		 
+		if (Bandera_2 == 1) {
+			P2_RED++;// Incremento de jugador dos
+			P2_RED = (P2_RED > 4) ? 0 : P2_RED;// Evitar que sobre pase 5
+			_delay_ms(150); // Antirebote
+		}
 	}
 	
+	// Comprobar si el botón en PB1 está presionado (PB1 es bajo)
+	if (!(PINB & (1 << PB1))) {
+		if (Bandera_2 == 1) {
+			P1_BLUE++;// Incremento de jugador uno
+			P1_BLUE = (P1_BLUE > 4) ? 0 : P1_BLUE;// Evitar que sobre pase 5
+			_delay_ms(150);// Antirebote
+		}
+	}
+
+	// Comprobar si el botón en PB2 está presionado (PB2 es bajo)
+	if (!(PINB & (1 << PB2))) {
+		// Activar Timer.
+		Bandera_1 = 1;// Activar decremento de display
+		_delay_ms(150);// Antirebote
+		
+	}
 }
 
 void pcint_init() {
-	PCICR |= (1 << PCIE0);  // Habilitar interrupciones de cambio de pin para PCINT[7:0]
-	PCMSK0 |= (1 << PCINT0) | (1 << PCINT1) | (1 << PCINT2);  // Habilitar interrupción para PCINT0 (PB0), PCINT1 (PB1) Y PCINT2 (PB2)
+	PCICR |= (1 << PCIE0);       // Habilitar interrupciones de cambio de pin para PCINT[7:0]
+	PCMSK0 |= (1 << PCINT0) | (1 << PCINT1) | (1 << PCINT2);  // Habilitar interrupción para PB0, PB1, PB2
 }
 
 int main(void) {
 	// Configuración del puerto D como salida
-	DDRD = 0xFF;  // 0xFF en binario es 11111111, lo que significa que todos los pines del puerto D son configurados como salida
-	
+	DDRD = 0xFF;  // Todos los pines del puerto D son salidas
+
 	// Configuración de los pines PC3, PC4 y PC5 como salida
-	DDRC |= (1 << PC3) | (1 << PC4) | (1 << PC5);  // Configura PC3, PC4 y PC5 como salidas
-	
+	DDRC |= (1 << PC3) | (1 << PC4) | (1 << PC5);  // PC3, PC4 y PC5 como salidas
+
 	// Configuración de PB0, PB1, PB2 como entradas con resistencias pull-up
-	DDRB &= ~((1 << PB0) | (1 << PB1) | (1 << PB2));  // Configura PB0, PB1, PB2 como entradas
-	PORTB |= (1 << PB0) | (1 << PB1) | (1 << PB2);  // Habilita resistencias pull-up en PB0, PB1, PB2
-	
-	
+	DDRB &= ~((1 << PB0) | (1 << PB1) | (1 << PB2));  // PB0, PB1, PB2 como entradas
+	PORTB |= (1 << PB0) | (1 << PB1) | (1 << PB2);   // Resistencias pull-up en PB0, PB1, PB2
+
+	// Inicializar interrupciones de puerto B (botones)
 	pcint_init();
-	
-	// Inicializar el timer
-	timer1_init();
-	   
+
 	// Habilitar interrupciones globales
 	sei();
 
-	// Bucle principal vacío
+	// Bucle principal
 	while (1) {
-		// Aquí puede ir el código adicional que quieras ejecutar continuamente
-		
-		//Establecer BJT_Display en alto (HIGH) y BJT_BLUE, BJT_RED en bajo (LOW)
-		PORTC |= (1 << PC5);  // Establece PC5 en alto 
-		PORTC &= ~((1 << PC3) | (1 << PC4));  // Establece PC3 y PC4 en bajo
-		PORTD = fila[counter];// Mostrar valores en Display de Timer. 
-		
+		// Control de Timer
+		while (Bandera_1) {
+			// Mostrar valores en Display de Timer (cuenta regresiva)
+			PORTC |= (1 << PC5);   // BJT_Display en alto
+			PORTC &= ~((1 << PC3) | (1 << PC4));  // BJT_BLUE y BJT_RED en bajo
+			
+			PORTD = fila_1[counter];  // Mostrar valores en Display de Timer
+			
+			Bandera_1 = (counter == 0) ? 0 : 1;  // Desactivar Bandera_1 cuando counter llega a 0
+			Bandera_2 = (counter == 0) ? 1 : 0;  // Activar Bandera_2 cuando counter llega a 0
+			
+			_delay_ms(999);  // Esperar 1 segundo (timer)
+			
+			counter--;  // Decrementar contador
+			_delay_ms(1);
+		}
+
+		// Control de estados para Bandera_2
+		while (Bandera_2) {
+			// BJT_Display en bajo, mostrar valores alternativos en Display
+			PORTC |= (1 << PC3);   // BJT_BLUE en alto
+			PORTC &= ~((1 << PC5) | (1 << PC4));  // BJT_Display y BJT_RED en bajo
+			PORTD = fila_2[P1_BLUE];  // Mostrar valores en Display
+			_delay_ms(6);
+
+			// BJT_Display en bajo, mostrar valores alternativos en Display
+			PORTC |= (1 << PC4);   // BJT_RED en alto
+			PORTC &= ~((1 << PC3) | (1 << PC5));  // BJT_Display y BJT_BLUE en bajo
+			PORTD = fila_2[P2_RED];  // Mostrar valores en Display
+			_delay_ms(6);
+
+		}
 	}
-	
+
 	return 0;
 }
