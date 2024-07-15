@@ -37,10 +37,7 @@ ISR(PCINT0_vect) {
 	// Comprobar si el botón en PB2 está presionado (PB1 es bajo)
 	if (!(PINB & (1 << PB2))) {
 		// Activar Timer.
-		//Establecer BJT_Display en alto (HIGH) y BJT_BLUE, BJT_RED en bajo (LOW)
-		PORTC |= (1 << PC5);  // Establece PC5 en alto 
-		PORTC &= ~((1 << PC3) | (1 << PC4));  // Establece PC3 y PC4 en bajo
-		PORTD = fila[counter];// Mostrar valores en Display de Timer. 
+		 
 	}
 	
 }
@@ -74,6 +71,10 @@ int main(void) {
 	while (1) {
 		// Aquí puede ir el código adicional que quieras ejecutar continuamente
 		
+		//Establecer BJT_Display en alto (HIGH) y BJT_BLUE, BJT_RED en bajo (LOW)
+		PORTC |= (1 << PC5);  // Establece PC5 en alto 
+		PORTC &= ~((1 << PC3) | (1 << PC4));  // Establece PC3 y PC4 en bajo
+		PORTD = fila[counter];// Mostrar valores en Display de Timer. 
 		
 	}
 	
