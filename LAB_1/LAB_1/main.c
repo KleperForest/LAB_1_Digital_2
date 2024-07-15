@@ -4,6 +4,8 @@
 #include <avr/io.h>
 #include <util/delay.h>
 
+#DEFINE 
+
 int main(void) {
 	// Configuración del puerto D como salida
 	DDRD = 0xFF;  // 0xFF en binario es 11111111, lo que significa que todos los pines del puerto D son configurados como salida
@@ -25,15 +27,7 @@ int main(void) {
 		PORTD = 0b01111111;
 		_delay_ms(6);
 		
-		PORTC |= (1 << PC3);  // Establece PC5 en alto Transistor de Blue
-		PORTC &= ~((1 << PC5) | (1 << PC4));  // Establece PC3 y PC4 en bajo
-		PORTD = 0b10010000;
-		_delay_ms(6);
 		
-		PORTC |= (1 << PC4);  // Establece PC5 en alto Transistor de RED
-		PORTC &= ~((1 << PC3) | (1 << PC5));  // Establece PC3 y PC4 en bajo
-		PORTD = 0b01100000;
-		_delay_ms(6);
 	}
 	
 	return 0;
