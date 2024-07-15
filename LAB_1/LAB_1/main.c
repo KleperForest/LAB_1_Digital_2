@@ -2,63 +2,154 @@
 
 #include <avr/io.h>
 #include <util/delay.h>
+#include <avr/interrupt.h>
 
-// Definición de valores hexadecimales para los números del 5 al 0
-#define NUM_5 0xF8
-#define NUM_4 0x72
-#define NUM_3 0xBA
-#define NUM_2 0xAE
-#define NUM_1 0x12
-#define NUM_0 0xDE
+volatile uint8_t counter = 5; // Valor de cuenta regresiva
 
-// Tabla para mapear los números a los valores hexadecimales
-const uint8_t display_values[] = {
-	NUM_0,   // 0
-	NUM_1,   // 1
-	NUM_2,   // 2
-	NUM_3,   // 3
-	NUM_4,   // 4
-	NUM_5    // 5
-};
+const uint8_t fila_1[] = {0x3F, 0x0C, 0x5B, 0x5D, 0x6C, 0x75};  // Valores para los pines de PORTD Display
+const uint8_t fila_2[] = {0x00, 0x40, 0x20, 0x10, 0x80};        // Valores para los pines de PORTD Jugadores
 
-// Función para inicializar el puerto y configurar PB1 como entrada con pull-up
-void init_GPIO() {
-	// Configurar PB1 como entrada (botón) con pull-up
-	DDRB &= ~(1 << PB1);    // PB1 como entrada
-	PORTB |= (1 << PB1);    // Habilitar pull-up en PB1
-	
-	// Configurar PD1 a PD7 como salidas para el display de 7 segmentos
-	DDRD |= 0xFE;   // PD1 a PD7 como salidas (0xFE en binario es 11111110)
+volatile uint8_t Bandera_1 = 0;// Bandera para Diplay
+volatile uint8_t Bandera_2 = 0;// Bandera para jugadores
+volatile uint8_t P2_RED = 0;// Jugador 2
+volatile uint8_t P1_BLUE = 0;// Jugador 1
+
+volatile uint8_t Win_ner = 0;// Jugador 2 for win
+
+void debounce_delay() {
+	_delay_ms(150);
 }
 
-// Función para mostrar un número en el display de 7 segmentos usando la tabla
-void display_number(uint8_t number) {
-	if (number <= 5) {
-		PORTD = display_values[number];
-		} else {
-		// Apagar todos los segmentos si se recibe un número fuera del rango esperado
-		PORTD = 0x00;
+void incrementar_contador_1() {
+	if(Bandera_2 == 1)
+	{P1_BLUE++;// Incremento de jugador uno
+	Win_ner = (P1_BLUE > 4) ? 1 : 0; //Determinar ganador
+	Bandera_2 = (P1_BLUE > 4) ? 0 : 1;// Parar Carrera
+	}
+	
+}
+
+void incrementar_contador_2() {
+	if(Bandera_2 == 1){
+	P2_RED++;// Incremento de jugador dos
+	Win_ner = (P2_RED > 4) ? 2 : 0; //Determinar ganador
+	Bandera_2 = (P2_RED > 4) ? 0 : 1;// Parar Carrera
 	}
 }
 
-int main() {
-	// Inicializar puertos y configuraciones
-	init_GPIO();
+void Winner(){
+	if (Win_ner == 1){
+		// Mostrar valores en Display de Timer (cuenta regresiva)
+		PORTC |= (1 << PC5);   // BJT_Display en alto
+		PORTC &= ~((1 << PC3) | (1 << PC4));  // BJT_BLUE y BJT_RED en bajo
+		
+		PORTD = fila_1[1];  // Mostrar valores en Display de Timer
+	}
+	else if (Win_ner == 2){
+		// Mostrar valores en Display de Timer (cuenta regresiva)
+		PORTC |= (1 << PC5);   // BJT_Display en alto
+		PORTC &= ~((1 << PC3) | (1 << PC4));  // BJT_BLUE y BJT_RED en bajo
+		
+		PORTD = fila_1[2];  // Mostrar valores en Display de Timer	
+	}
+			
+}
 	
-	// Variable para el contador
-	uint8_t contador = 5;
-	
-	while (1) {
-		// Verificar estado del botón en PB1 (se presiona cuando está en bajo debido al pull-up)
-		if (!(PINB & (1 << PB1))) {
-			// Iniciar contador del 5 al 0 y mostrar en el display de 7 segmentos
-			while (contador >= 0) {
-				display_number(contador);
-				_delay_ms(1000);    // Esperar 1 segundo
-				contador--;
-			}
+ISR(PCINT0_vect) {
+	// Comprobar si el botón en PB0 está presionado (PB0 es bajo)
+	if (!(PINB & (1 << PB0))) {
+		if (Bandera_2 == 1) {
+			incrementar_contador_2(); // incremento para jugador 2
+			debounce_delay();// Antirrebote
 		}
 	}
 	
+	// Comprobar si el botón en PB1 está presionado (PB1 es bajo)
+	if (!(PINB & (1 << PB1))) {
+		if (Bandera_2 == 1) {
+			incrementar_contador_1(); // incremento para jugador 1
+			debounce_delay();// Antirrebote
+		}
+	}
+
+	// Comprobar si el botón en PB2 está presionado (PB2 es bajo)
+	if (!(PINB & (1 << PB2))) {
+		// Activar Timer.
+		Bandera_1 = 1;// Activar decremento de display
+		Bandera_2 = 0;// Desactivar incremento de jugadores
+		counter = 6; // Reiniciar contador
+		P1_BLUE = 0; // Reiniciar valor de jugador 1
+		P2_RED = 0; // Reiniciar valor de jugador 2
+		debounce_delay();// Antirrebote
+		
+	}
+}
+
+void pcint_init() {
+	PCICR |= (1 << PCIE0);       // Habilitar interrupciones de cambio de pin para PCINT[7:0]
+	PCMSK0 |= (1 << PCINT0) | (1 << PCINT1) | (1 << PCINT2);  // Habilitar interrupción para PB0, PB1, PB2
+}
+
+int main(void) {
+	// Configuración del puerto D como salida
+	DDRD = 0xFF;  // Todos los pines del puerto D son salidas
+
+	// Configuración de los pines PC3, PC4 y PC5 como salida
+	DDRC |= (1 << PC3) | (1 << PC4) | (1 << PC5);  // PC3, PC4 y PC5 como salidas
+
+	// Configuración de PB0, PB1, PB2 como entradas con resistencias pull-up
+	DDRB &= ~((1 << PB0) | (1 << PB1) | (1 << PB2));  // PB0, PB1, PB2 como entradas
+	PORTB |= (1 << PB0) | (1 << PB1) | (1 << PB2);   // Resistencias pull-up en PB0, PB1, PB2
+
+	// Inicializar interrupciones de puerto B (botones)
+	pcint_init();
+
+	// Habilitar interrupciones globales
+	sei();
+
+	// Bucle principal
+	while (1) {
+		// Control de Timer
+		while (Bandera_1) {
+			//Controlar cremento de jugadores
+			P1_BLUE = 0;
+			P2_RED = 0;
+			
+			// Mostrar valores en Display de Timer (cuenta regresiva)
+			PORTC |= (1 << PC5);   // BJT_Display en alto
+			PORTC &= ~((1 << PC3) | (1 << PC4));  // BJT_BLUE y BJT_RED en bajo
+			
+			PORTD = fila_1[counter];  // Mostrar valores en Display de Timer
+			
+			Bandera_1 = (counter == 0) ? 0 : 1;  // Desactivar Bandera_1 cuando counter llega a 0
+			Bandera_2 = (counter == 0) ? 1 : 0;  // Activar Bandera_2 cuando counter llega a 0
+			
+			_delay_ms(999);  // Esperar 1 segundo (timer)
+			
+			counter--;  // Decrementar contador
+			_delay_ms(1);
+		}
+
+		// Control de estados para Bandera_2
+		while (Bandera_2) {
+			// BJT_Display en bajo, mostrar valores alternativos en Display
+			PORTC |= (1 << PC3);   // BJT_BLUE en alto
+			PORTC &= ~((1 << PC5) | (1 << PC4));  // BJT_Display y BJT_RED en bajo
+			PORTD = fila_2[P1_BLUE];  // Mostrar valores en Display
+			_delay_ms(6);
+
+			// BJT_Display en bajo, mostrar valores alternativos en Display
+			PORTC |= (1 << PC4);   // BJT_RED en alto
+			PORTC &= ~((1 << PC3) | (1 << PC5));  // BJT_Display y BJT_BLUE en bajo
+			PORTD = fila_2[P2_RED];  // Mostrar valores en Display
+			_delay_ms(6);
+			
+			Winner();
+
+		}
+		
+		
+	}
+
 	return 0;
 }
