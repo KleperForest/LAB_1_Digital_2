@@ -1,8 +1,25 @@
+///////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////
+// Universidad del Valle de Guatemala
+// IE3054: ELECTRÓNICA DIGITAL 2
+// Autor: Alan Gomez
+// Proyecto: LAB_1.c
+// Descripción: Laboratorio repaso – Juego de carreras
+// Hardware: ATmega328p
+// Created: 7/11/24 1:02 p.m.
+///////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////
+
 #define F_CPU 16000000UL
 
 #include <avr/io.h>
 #include <util/delay.h>
 #include <avr/interrupt.h>
+
+////////////////////////////////////////////////////
+// Variables.
+////////////////////////////////////////////////////
+
 
 volatile uint8_t counter = 6; // Valor de cuenta regresiva
 
@@ -16,6 +33,10 @@ volatile uint8_t P2_RED = 0;// Jugador 2
 volatile uint8_t P1_BLUE = 0;// Jugador 1
 
 volatile uint8_t Win_ner = 0;// Jugador 2 for win
+
+////////////////////////////////////////////////////
+//Rutinas
+////////////////////////////////////////////////////
 
 void debounce_delay() {
 	_delay_ms(150);
@@ -45,7 +66,11 @@ void Winner(){
 		Bandera_3 = 1;
 	}			
 }
-	
+
+////////////////////////////////////////////////////
+//Interrupciones
+////////////////////////////////////////////////////	
+
 ISR(PCINT0_vect) {
 	// Comprobar si el botón en PB0 está presionado (PB0 es bajo)
 	if (!(PINB & (1 << PB0))) {
@@ -82,6 +107,10 @@ void pcint_init() {
 	PCICR |= (1 << PCIE0);       // Habilitar interrupciones de cambio de pin para PCINT[7:0]
 	PCMSK0 |= (1 << PCINT0) | (1 << PCINT1) | (1 << PCINT2);  // Habilitar interrupción para PB0, PB1, PB2
 }
+
+////////////////////////////////////////////////////
+//Programa Principal
+////////////////////////////////////////////////////
 
 int main(void) {
 	// Configuración del puerto D como salida
