@@ -12,7 +12,7 @@ int main(void) {
 	DDRC |= (1 << PC3) | (1 << PC4) | (1 << PC5);  // Configura PC3, PC4 y PC5 como salidas
 	
 	// Establecer todos los pines del puerto D en alto (HIGH)
-	PORTD = 0xFF;  // 0xFF en binario es 11111111, lo que establece todos los pines del puerto D en alto
+	//PORTD = 0xFF;  // 0xFF en binario es 11111111, lo que establece todos los pines del puerto D en alto
 	
 
 	// Bucle principal vacío
@@ -20,17 +20,20 @@ int main(void) {
 		// Aquí puede ir el código adicional que quieras ejecutar continuamente
 		
 		//Establecer PC5 en alto (HIGH) y PC4, PC3 en bajo (LOW)
-		PORTC |= (1 << PC5);  // Establece PC5 en alto
+		PORTC |= (1 << PC5);  // Establece PC5 en alto Transistor de Display
 		PORTC &= ~((1 << PC3) | (1 << PC4));  // Establece PC3 y PC4 en bajo
-		_delay_ms(5);
+		PORTD = 0b01111111;
+		_delay_ms(6);
 		
-		PORTC |= (1 << PC3);  // Establece PC5 en alto
+		PORTC |= (1 << PC3);  // Establece PC5 en alto Transistor de Blue
 		PORTC &= ~((1 << PC5) | (1 << PC4));  // Establece PC3 y PC4 en bajo
-		_delay_ms(5);
+		PORTD = 0b10010000;
+		_delay_ms(6);
 		
-		PORTC |= (1 << PC4);  // Establece PC5 en alto
+		PORTC |= (1 << PC4);  // Establece PC5 en alto Transistor de RED
 		PORTC &= ~((1 << PC3) | (1 << PC5));  // Establece PC3 y PC4 en bajo
-		_delay_ms(5);
+		PORTD = 0b01100000;
+		_delay_ms(6);
 	}
 	
 	return 0;
