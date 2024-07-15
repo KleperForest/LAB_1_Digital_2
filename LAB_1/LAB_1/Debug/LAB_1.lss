@@ -3,60 +3,60 @@ LAB_1.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000000  00800100  00800100  000001e0  2**0
+  0 .data         00000008  00800100  00000118  0000018c  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         0000018c  00000000  00000000  00000054  2**1
+  1 .text         00000118  00000000  00000000  00000074  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .comment      00000030  00000000  00000000  000001e0  2**0
+  2 .comment      00000030  00000000  00000000  00000194  2**0
                   CONTENTS, READONLY
-  3 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  00000210  2**2
+  3 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  000001c4  2**2
                   CONTENTS, READONLY
-  4 .debug_aranges 00000020  00000000  00000000  00000250  2**0
+  4 .debug_aranges 00000030  00000000  00000000  00000204  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   0000085c  00000000  00000000  00000270  2**0
+  5 .debug_info   00000711  00000000  00000000  00000234  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 0000068a  00000000  00000000  00000acc  2**0
+  6 .debug_abbrev 00000664  00000000  00000000  00000945  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   0000037e  00000000  00000000  00001156  2**0
+  7 .debug_line   0000024f  00000000  00000000  00000fa9  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  00000024  00000000  00000000  000014d4  2**2
+  8 .debug_frame  00000054  00000000  00000000  000011f8  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    000003c3  00000000  00000000  000014f8  2**0
+  9 .debug_str    000003af  00000000  00000000  0000124c  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    000001b0  00000000  00000000  000018bb  2**0
+ 10 .debug_loc    0000003c  00000000  00000000  000015fb  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 00000010  00000000  00000000  00001a6b  2**0
+ 11 .debug_ranges 00000020  00000000  00000000  00001637  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
 
 00000000 <__vectors>:
    0:	0c 94 34 00 	jmp	0x68	; 0x68 <__ctors_end>
-   4:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
-   8:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
-   c:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
-  10:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
-  14:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
-  18:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
-  1c:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
-  20:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
-  24:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
-  28:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
-  2c:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
-  30:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
-  34:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
-  38:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
-  3c:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
-  40:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
-  44:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
-  48:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
-  4c:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
-  50:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
-  54:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
-  58:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
-  5c:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
-  60:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
-  64:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+   4:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+   8:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+   c:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  10:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  14:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  18:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  1c:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  20:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  24:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  28:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  2c:	0c 94 5f 00 	jmp	0xbe	; 0xbe <__vector_11>
+  30:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  34:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  38:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  3c:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  40:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  44:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  48:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  4c:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  50:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  54:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  58:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  5c:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  60:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+  64:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
 
 00000068 <__ctors_end>:
   68:	11 24       	eor	r1, r1
@@ -65,207 +65,127 @@ Disassembly of section .text:
   6e:	d8 e0       	ldi	r29, 0x08	; 8
   70:	de bf       	out	0x3e, r29	; 62
   72:	cd bf       	out	0x3d, r28	; 61
-  74:	0e 94 40 00 	call	0x80	; 0x80 <main>
-  78:	0c 94 c4 00 	jmp	0x188	; 0x188 <_exit>
 
-0000007c <__bad_interrupt>:
-  7c:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+00000074 <__do_copy_data>:
+  74:	11 e0       	ldi	r17, 0x01	; 1
+  76:	a0 e0       	ldi	r26, 0x00	; 0
+  78:	b1 e0       	ldi	r27, 0x01	; 1
+  7a:	e8 e1       	ldi	r30, 0x18	; 24
+  7c:	f1 e0       	ldi	r31, 0x01	; 1
+  7e:	02 c0       	rjmp	.+4      	; 0x84 <__do_copy_data+0x10>
+  80:	05 90       	lpm	r0, Z+
+  82:	0d 92       	st	X+, r0
+  84:	a8 30       	cpi	r26, 0x08	; 8
+  86:	b1 07       	cpc	r27, r17
+  88:	d9 f7       	brne	.-10     	; 0x80 <__do_copy_data+0xc>
+  8a:	0e 94 74 00 	call	0xe8	; 0xe8 <main>
+  8e:	0c 94 8a 00 	jmp	0x114	; 0x114 <_exit>
 
-00000080 <main>:
-#include <avr/io.h>
-#include <util/delay.h>
+00000092 <__bad_interrupt>:
+  92:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+00000096 <timer1_init>:
+const uint8_t fila[] = {0x3F, 0x0C, 0x5B, 0x5D, 0x6C, 0x75};  // Valores para los pines de PORTD
+
+
+void timer1_init() {
+	// Configurar el Timer1 en modo CTC
+	TCCR1B |= (1 << WGM12);  // Configurar el modo CTC (Clear Timer on Compare Match)
+  96:	e1 e8       	ldi	r30, 0x81	; 129
+  98:	f0 e0       	ldi	r31, 0x00	; 0
+  9a:	80 81       	ld	r24, Z
+  9c:	88 60       	ori	r24, 0x08	; 8
+  9e:	80 83       	st	Z, r24
+	TIMSK1 |= (1 << OCIE1A);  // Habilitar la interrupción por comparación del OCR1A
+  a0:	af e6       	ldi	r26, 0x6F	; 111
+  a2:	b0 e0       	ldi	r27, 0x00	; 0
+  a4:	8c 91       	ld	r24, X
+  a6:	82 60       	ori	r24, 0x02	; 2
+  a8:	8c 93       	st	X, r24
+	OCR1A = 15624;  // Valor de comparación para generar una interrupción cada segundo (con prescaler 1024)
+  aa:	88 e0       	ldi	r24, 0x08	; 8
+  ac:	9d e3       	ldi	r25, 0x3D	; 61
+  ae:	90 93 89 00 	sts	0x0089, r25	; 0x800089 <__TEXT_REGION_LENGTH__+0x7f8089>
+  b2:	80 93 88 00 	sts	0x0088, r24	; 0x800088 <__TEXT_REGION_LENGTH__+0x7f8088>
+	TCCR1B |= (1 << CS12) | (1 << CS10);  // Configurar el prescaler en 1024
+  b6:	80 81       	ld	r24, Z
+  b8:	85 60       	ori	r24, 0x05	; 5
+  ba:	80 83       	st	Z, r24
+  bc:	08 95       	ret
+
+000000be <__vector_11>:
+}
+
+ISR(TIMER1_COMPA_vect) {
+  be:	1f 92       	push	r1
+  c0:	0f 92       	push	r0
+  c2:	0f b6       	in	r0, 0x3f	; 63
+  c4:	0f 92       	push	r0
+  c6:	11 24       	eor	r1, r1
+  c8:	8f 93       	push	r24
+	if (counter > 0) {
+  ca:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
+  ce:	88 23       	and	r24, r24
+  d0:	29 f0       	breq	.+10     	; 0xdc <__vector_11+0x1e>
+		counter--;  // Decrementar el contador
+  d2:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
+  d6:	81 50       	subi	r24, 0x01	; 1
+  d8:	80 93 00 01 	sts	0x0100, r24	; 0x800100 <__DATA_REGION_ORIGIN__>
+	}
+}
+  dc:	8f 91       	pop	r24
+  de:	0f 90       	pop	r0
+  e0:	0f be       	out	0x3f, r0	; 63
+  e2:	0f 90       	pop	r0
+  e4:	1f 90       	pop	r1
+  e6:	18 95       	reti
+
+000000e8 <main>:
 
 int main(void) {
 	// Configuración del puerto D como salida
 	DDRD = 0xFF;  // 0xFF en binario es 11111111, lo que significa que todos los pines del puerto D son configurados como salida
-  80:	8f ef       	ldi	r24, 0xFF	; 255
-  82:	8a b9       	out	0x0a, r24	; 10
+  e8:	8f ef       	ldi	r24, 0xFF	; 255
+  ea:	8a b9       	out	0x0a, r24	; 10
 	
 	// Configuración de los pines PC3, PC4 y PC5 como salida
 	DDRC |= (1 << PC3) | (1 << PC4) | (1 << PC5);  // Configura PC3, PC4 y PC5 como salidas
-  84:	87 b1       	in	r24, 0x07	; 7
-  86:	88 63       	ori	r24, 0x38	; 56
-  88:	87 b9       	out	0x07, r24	; 7
+  ec:	87 b1       	in	r24, 0x07	; 7
+  ee:	88 63       	ori	r24, 0x38	; 56
+  f0:	87 b9       	out	0x07, r24	; 7
+	
+	// Inicializar el timer
+	timer1_init();
+  f2:	0e 94 4b 00 	call	0x96	; 0x96 <timer1_init>
+	   
+	// Habilitar interrupciones globales
+	sei();
+  f6:	78 94       	sei
+
 	// Bucle principal vacío
 	while (1) {
 		// Aquí puede ir el código adicional que quieras ejecutar continuamente
-		
 		//Establecer PC5 en alto (HIGH) y PC4, PC3 en bajo (LOW)
 		PORTC |= (1 << PC5);  // Establece PC5 en alto Transistor de Display
-  8a:	88 b1       	in	r24, 0x08	; 8
-  8c:	80 62       	ori	r24, 0x20	; 32
-  8e:	88 b9       	out	0x08, r24	; 8
+  f8:	88 b1       	in	r24, 0x08	; 8
+  fa:	80 62       	ori	r24, 0x20	; 32
+  fc:	88 b9       	out	0x08, r24	; 8
 		PORTC &= ~((1 << PC3) | (1 << PC4));  // Establece PC3 y PC4 en bajo
-  90:	88 b1       	in	r24, 0x08	; 8
-  92:	87 7e       	andi	r24, 0xE7	; 231
-  94:	88 b9       	out	0x08, r24	; 8
-		PORTD = 0b01000000;
-  96:	80 e4       	ldi	r24, 0x40	; 64
-  98:	8b b9       	out	0x0b, r24	; 11
-	#else
-		//round up by default
-		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
-	#endif
+  fe:	88 b1       	in	r24, 0x08	; 8
+ 100:	87 7e       	andi	r24, 0xE7	; 231
+ 102:	88 b9       	out	0x08, r24	; 8
+		
+		PORTD = fila[counter];// Mostrar valores en Display de Timer. 
+ 104:	e0 91 00 01 	lds	r30, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
+ 108:	f0 e0       	ldi	r31, 0x00	; 0
+ 10a:	ef 5f       	subi	r30, 0xFF	; 255
+ 10c:	fe 4f       	sbci	r31, 0xFE	; 254
+ 10e:	80 81       	ld	r24, Z
+ 110:	8b b9       	out	0x0b, r24	; 11
+ 112:	f2 cf       	rjmp	.-28     	; 0xf8 <main+0x10>
 
-	__builtin_avr_delay_cycles(__ticks_dc);
-  9a:	2a ea       	ldi	r18, 0xAA	; 170
-  9c:	36 ee       	ldi	r19, 0xE6	; 230
-  9e:	86 e9       	ldi	r24, 0x96	; 150
-  a0:	91 e0       	ldi	r25, 0x01	; 1
-  a2:	21 50       	subi	r18, 0x01	; 1
-  a4:	30 40       	sbci	r19, 0x00	; 0
-  a6:	80 40       	sbci	r24, 0x00	; 0
-  a8:	90 40       	sbci	r25, 0x00	; 0
-  aa:	d9 f7       	brne	.-10     	; 0xa2 <main+0x22>
-  ac:	00 00       	nop
-		_delay_ms(10000);
-		
-		//Establecer PC5 en alto (HIGH) y PC4, PC3 en bajo (LOW)
-		PORTC |= (1 << PC5);  // Establece PC5 en alto Transistor de Display
-  ae:	88 b1       	in	r24, 0x08	; 8
-  b0:	80 62       	ori	r24, 0x20	; 32
-  b2:	88 b9       	out	0x08, r24	; 8
-		PORTC &= ~((1 << PC3) | (1 << PC4));  // Establece PC3 y PC4 en bajo
-  b4:	88 b1       	in	r24, 0x08	; 8
-  b6:	87 7e       	andi	r24, 0xE7	; 231
-  b8:	88 b9       	out	0x08, r24	; 8
-		PORTD = 0b00100000;
-  ba:	80 e2       	ldi	r24, 0x20	; 32
-  bc:	8b b9       	out	0x0b, r24	; 11
-  be:	2a ea       	ldi	r18, 0xAA	; 170
-  c0:	36 ee       	ldi	r19, 0xE6	; 230
-  c2:	86 e9       	ldi	r24, 0x96	; 150
-  c4:	91 e0       	ldi	r25, 0x01	; 1
-  c6:	21 50       	subi	r18, 0x01	; 1
-  c8:	30 40       	sbci	r19, 0x00	; 0
-  ca:	80 40       	sbci	r24, 0x00	; 0
-  cc:	90 40       	sbci	r25, 0x00	; 0
-  ce:	d9 f7       	brne	.-10     	; 0xc6 <main+0x46>
-  d0:	00 00       	nop
-		_delay_ms(10000);
-		
-		//Establecer PC5 en alto (HIGH) y PC4, PC3 en bajo (LOW)
-		PORTC |= (1 << PC5);  // Establece PC5 en alto Transistor de Display
-  d2:	88 b1       	in	r24, 0x08	; 8
-  d4:	80 62       	ori	r24, 0x20	; 32
-  d6:	88 b9       	out	0x08, r24	; 8
-		PORTC &= ~((1 << PC3) | (1 << PC4));  // Establece PC3 y PC4 en bajo
-  d8:	88 b1       	in	r24, 0x08	; 8
-  da:	87 7e       	andi	r24, 0xE7	; 231
-  dc:	88 b9       	out	0x08, r24	; 8
-		PORTD = 0b00010000;
-  de:	80 e1       	ldi	r24, 0x10	; 16
-  e0:	8b b9       	out	0x0b, r24	; 11
-  e2:	2a ea       	ldi	r18, 0xAA	; 170
-  e4:	36 ee       	ldi	r19, 0xE6	; 230
-  e6:	86 e9       	ldi	r24, 0x96	; 150
-  e8:	91 e0       	ldi	r25, 0x01	; 1
-  ea:	21 50       	subi	r18, 0x01	; 1
-  ec:	30 40       	sbci	r19, 0x00	; 0
-  ee:	80 40       	sbci	r24, 0x00	; 0
-  f0:	90 40       	sbci	r25, 0x00	; 0
-  f2:	d9 f7       	brne	.-10     	; 0xea <main+0x6a>
-  f4:	00 00       	nop
-		_delay_ms(10000);
-		
-		//Establecer PC5 en alto (HIGH) y PC4, PC3 en bajo (LOW)
-		PORTC |= (1 << PC5);  // Establece PC5 en alto Transistor de Display
-  f6:	88 b1       	in	r24, 0x08	; 8
-  f8:	80 62       	ori	r24, 0x20	; 32
-  fa:	88 b9       	out	0x08, r24	; 8
-		PORTC &= ~((1 << PC3) | (1 << PC4));  // Establece PC3 y PC4 en bajo
-  fc:	88 b1       	in	r24, 0x08	; 8
-  fe:	87 7e       	andi	r24, 0xE7	; 231
- 100:	88 b9       	out	0x08, r24	; 8
-		PORTD = 0b00001000;
- 102:	88 e0       	ldi	r24, 0x08	; 8
- 104:	8b b9       	out	0x0b, r24	; 11
- 106:	2a ea       	ldi	r18, 0xAA	; 170
- 108:	36 ee       	ldi	r19, 0xE6	; 230
- 10a:	86 e9       	ldi	r24, 0x96	; 150
- 10c:	91 e0       	ldi	r25, 0x01	; 1
- 10e:	21 50       	subi	r18, 0x01	; 1
- 110:	30 40       	sbci	r19, 0x00	; 0
- 112:	80 40       	sbci	r24, 0x00	; 0
- 114:	90 40       	sbci	r25, 0x00	; 0
- 116:	d9 f7       	brne	.-10     	; 0x10e <main+0x8e>
- 118:	00 00       	nop
-		_delay_ms(10000);
-		
-		//Establecer PC5 en alto (HIGH) y PC4, PC3 en bajo (LOW)
-		PORTC |= (1 << PC5);  // Establece PC5 en alto Transistor de Display
- 11a:	88 b1       	in	r24, 0x08	; 8
- 11c:	80 62       	ori	r24, 0x20	; 32
- 11e:	88 b9       	out	0x08, r24	; 8
-		PORTC &= ~((1 << PC3) | (1 << PC4));  // Establece PC3 y PC4 en bajo
- 120:	88 b1       	in	r24, 0x08	; 8
- 122:	87 7e       	andi	r24, 0xE7	; 231
- 124:	88 b9       	out	0x08, r24	; 8
-		PORTD = 0b00000100;
- 126:	84 e0       	ldi	r24, 0x04	; 4
- 128:	8b b9       	out	0x0b, r24	; 11
- 12a:	2a ea       	ldi	r18, 0xAA	; 170
- 12c:	36 ee       	ldi	r19, 0xE6	; 230
- 12e:	86 e9       	ldi	r24, 0x96	; 150
- 130:	91 e0       	ldi	r25, 0x01	; 1
- 132:	21 50       	subi	r18, 0x01	; 1
- 134:	30 40       	sbci	r19, 0x00	; 0
- 136:	80 40       	sbci	r24, 0x00	; 0
- 138:	90 40       	sbci	r25, 0x00	; 0
- 13a:	d9 f7       	brne	.-10     	; 0x132 <main+0xb2>
- 13c:	00 00       	nop
-		_delay_ms(10000);
-		
-		//Establecer PC5 en alto (HIGH) y PC4, PC3 en bajo (LOW)
-		PORTC |= (1 << PC5);  // Establece PC5 en alto Transistor de Display
- 13e:	88 b1       	in	r24, 0x08	; 8
- 140:	80 62       	ori	r24, 0x20	; 32
- 142:	88 b9       	out	0x08, r24	; 8
-		PORTC &= ~((1 << PC3) | (1 << PC4));  // Establece PC3 y PC4 en bajo
- 144:	88 b1       	in	r24, 0x08	; 8
- 146:	87 7e       	andi	r24, 0xE7	; 231
- 148:	88 b9       	out	0x08, r24	; 8
-		PORTD = 0b00000010;
- 14a:	82 e0       	ldi	r24, 0x02	; 2
- 14c:	8b b9       	out	0x0b, r24	; 11
- 14e:	2a ea       	ldi	r18, 0xAA	; 170
- 150:	36 ee       	ldi	r19, 0xE6	; 230
- 152:	86 e9       	ldi	r24, 0x96	; 150
- 154:	91 e0       	ldi	r25, 0x01	; 1
- 156:	21 50       	subi	r18, 0x01	; 1
- 158:	30 40       	sbci	r19, 0x00	; 0
- 15a:	80 40       	sbci	r24, 0x00	; 0
- 15c:	90 40       	sbci	r25, 0x00	; 0
- 15e:	d9 f7       	brne	.-10     	; 0x156 <main+0xd6>
- 160:	00 00       	nop
-		_delay_ms(10000);
-		
-		//Establecer PC5 en alto (HIGH) y PC4, PC3 en bajo (LOW)
-		PORTC |= (1 << PC5);  // Establece PC5 en alto Transistor de Display
- 162:	88 b1       	in	r24, 0x08	; 8
- 164:	80 62       	ori	r24, 0x20	; 32
- 166:	88 b9       	out	0x08, r24	; 8
-		PORTC &= ~((1 << PC3) | (1 << PC4));  // Establece PC3 y PC4 en bajo
- 168:	88 b1       	in	r24, 0x08	; 8
- 16a:	87 7e       	andi	r24, 0xE7	; 231
- 16c:	88 b9       	out	0x08, r24	; 8
-		PORTD = 0b00000001;
- 16e:	81 e0       	ldi	r24, 0x01	; 1
- 170:	8b b9       	out	0x0b, r24	; 11
- 172:	2a ea       	ldi	r18, 0xAA	; 170
- 174:	36 ee       	ldi	r19, 0xE6	; 230
- 176:	86 e9       	ldi	r24, 0x96	; 150
- 178:	91 e0       	ldi	r25, 0x01	; 1
- 17a:	21 50       	subi	r18, 0x01	; 1
- 17c:	30 40       	sbci	r19, 0x00	; 0
- 17e:	80 40       	sbci	r24, 0x00	; 0
- 180:	90 40       	sbci	r25, 0x00	; 0
- 182:	d9 f7       	brne	.-10     	; 0x17a <main+0xfa>
- 184:	00 00       	nop
- 186:	81 cf       	rjmp	.-254    	; 0x8a <main+0xa>
+00000114 <_exit>:
+ 114:	f8 94       	cli
 
-00000188 <_exit>:
- 188:	f8 94       	cli
-
-0000018a <__stop_program>:
- 18a:	ff cf       	rjmp	.-2      	; 0x18a <__stop_program>
+00000116 <__stop_program>:
+ 116:	ff cf       	rjmp	.-2      	; 0x116 <__stop_program>
